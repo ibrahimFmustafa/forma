@@ -1,0 +1,20 @@
+{
+  "name": "forma-design",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "An independent, local-first design editor powered by Rust and WebAssembly.",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build:engine": "node scripts/build-engine.mjs",
+    "build": "tsc --noEmit && vite build",
+    "test": "node --test tests/*.test.mjs",
+    "preview": "vite preview --host 127.0.0.1"
+  },
+  "devDependencies": {
+    "prettier": "^3.9.10",
+    "typescript": "~5.9.3",
+    "vite": "^7.3.1"
+  }
+}

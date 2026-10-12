@@ -1,0 +1,30 @@
+name: Build and test
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Set up Rust
+        run: |
+          rustup toolchain install stable --profile minimal --component rustfmt --target wasm32-unknown-unknown
+          rustup default stable
+      - run: npm ci
+      - run: cargo fmt --manifest-path engine/Cargo.toml --check
+      - run: cargo test --manifest-path engine/Cargo.toml
+      - run: npm run build:engine
+      - run: npm test
+      - run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: forma-web
+          path: dist
